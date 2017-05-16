@@ -1,0 +1,26 @@
+{
+  "name": "embellish-image",
+  "version": "1.0.0",
+  "description": "upload image & embellish image & save image to local or server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TaylorPzreal/embellish-image.git"
+  },
+  "keywords": [
+    "upload",
+    "images",
+    "embellish",
+    "save",
+    "image"
+  ],
+  "author": "TaylorPzreal <taylorpzreal@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TaylorPzreal/embellish-image/issues"
+  },
+  "homepage": "https://github.com/TaylorPzreal/embellish-image#readme"
+}
