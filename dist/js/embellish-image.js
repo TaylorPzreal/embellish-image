@@ -1,11 +1,16 @@
-'use strict';
+function EmbellishImage(id, config) {
 
-// export default function EmbellishImage (id) {
+  this.width = config.width;
+  this.height = config.height;
 
-//   this.dom = document.getElementById(id);
-//   this.dom.append('<input type="file">')
+}
 
-//   document.body.append(this.dom);
+EmbellishImage.prototype.getSize = function () {
 
-//   console.warn('init');
-// }
+  // TODO: somenthing
+  const msg = `width: ${this.width}, height: ${this.height}`;
+  return msg;
+
+};
+
+export default EmbellishImage;
