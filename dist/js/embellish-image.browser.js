@@ -1,3 +1,4 @@
+var EmbellishImage = (function () {
 'use strict';
 
 function EmbellishImage(id, config) {
@@ -15,4 +16,6 @@ EmbellishImage.prototype.getSize = function () {
 
 };
 
-module.exports = EmbellishImage;
+return EmbellishImage;
+
+}());

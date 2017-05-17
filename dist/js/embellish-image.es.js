@@ -1,5 +1,3 @@
-'use strict';
-
 function EmbellishImage(id, config) {
 
   this.width = config.width;
@@ -15,4 +13,4 @@ EmbellishImage.prototype.getSize = function () {
 
 };
 
-module.exports = EmbellishImage;
+export default EmbellishImage;

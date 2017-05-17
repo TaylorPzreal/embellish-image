@@ -1,8 +1,15 @@
 {
   "name": "embellish-image",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "upload image & embellish image & save image to local or server.",
   "main": "dist/js/embellish-image.js",
+  "module": "dist/js/embellish-image.es.js",
+  "files": [
+    "dist",
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "start": "webpack-dev-server --progress --profile --colors --hot",
     "dev": "rollup -c -w",
