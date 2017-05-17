@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link href="css/style.css" rel="stylesheet">-->
+  </head>
+  <body>
+  <div id="haha">ceshi</div>
+
+  <script src="../js/embellish-image.js"></script>
+  <script src="./test.js"></script>
+  <script>
+    // import EmbellishImage from '../js/embellish-image.js';
+
+    // const dom = new EmbellishImage('haha');
+    var embellishImage = new EmbellishImage('haha', {
+      width: 400,
+      height: 300
+    });
+
+    var size = embellishImage.getSize();
+
+    console.warn(size);
+
+    console.log(embellishImage.prototype);
+    console.log(EmbellishImage.prototype);
+  </script>
+  </body>
+</html>
