@@ -7,16 +7,31 @@
 ```
 yarn install embellish-image
 ```
+```html
+<a id="upload" class="style">上传图片</a>
+
+<a id="save">确认上传</a>
+```
 
 ```js
 import EmbellishImage from 'embellish-image';
 
 const config = {
   width: 400,
-  height: 300
+  height: 300,
+  serverURL: 'server url here.'
 };
 
-const embellishImage = new EmbellishImage('ID', config);
+const dom = document.getElementById('upload');
+
+// init
+const embellishImage = new EmbellishImage(dom, config);
+
+// <!--save-->
+document.getElementById('save').onclick(function() {
+
+  embellishImage.save();
+})
 ```
 
 ## 产品需求

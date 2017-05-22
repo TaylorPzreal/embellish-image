@@ -33,6 +33,9 @@
     }],
     "no-alert": "error",
     "no-var": "error",
+    "no-console": ["error", {
+      "allow": ["warn", "error"]
+    }],
     "no-new-object": "error",
     "object-shorthand": ["error", "always"],
     "no-array-constructor": "error",

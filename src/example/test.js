@@ -1,15 +1,9 @@
-console.warn('haha');
+import EmbellishImage from '../js/embellish-image';
 
-function Person(name){
-  this.name = name;
-}
+const dom = document.getElementById('embellish-image');
+const config = {
+  width: 100,
+  heigh: 100,
+};
 
-Person.prototype.age = 24;
-
-var person  = new Person();
-
-person.age = 20;
-
-console.warn(person.constructor === Person);
-
-console.warn('uuu');
+new EmbellishImage(dom, config);
