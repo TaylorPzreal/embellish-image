@@ -1,0 +1,22 @@
+// EmbellishImage Style 2017-05-23
+$em-image-bgcolor: rgba(0, 0, 0, .4);
+$em-border-color: #ccc;
+
+.em-modal {
+  height: auto;
+  left: 0;
+  min-height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+
+  .em-modal-bg {
+    background-color: $em-image-bgcolor;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+  }
+}
