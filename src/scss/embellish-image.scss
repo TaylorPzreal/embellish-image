@@ -1,15 +1,25 @@
 // EmbellishImage Style 2017-05-23
 $em-image-bgcolor: rgba(0, 0, 0, .4);
 $em-border-color: #ccc;
+$box-bgc: rgba(255, 255, 255, .9);
+$text-dark: #233142;
+$border-color: #455d7a;
 
 .em-modal {
+  align-items: flex-start;
+  display: flex;
   height: auto;
+  justify-content: center;
   left: 0;
   min-height: 100%;
   position: absolute;
   right: 0;
   top: 0;
-  z-index: 1000;
+  z-index: 999;
+
+  & * {
+    box-sizing: border-box;
+  }
 
   .em-modal-bg {
     background-color: $em-image-bgcolor;
@@ -18,5 +28,62 @@ $em-border-color: #ccc;
     position: fixed;
     right: 0;
     top: 0;
+  }
+
+  .em-box {
+    background-color: $box-bgc;
+    border-radius: 5px; // margin-bottom: 80px;
+    margin-top: 80px;
+    max-width: 1000px;
+    min-height: 460px;
+    padding: 10px;
+    transition: height 2s ease;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  .em-box-header {
+    border-bottom: 2px solid $border-color;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    line-height: 34px;
+
+    h3 {
+      color: $text-dark;
+      margin: 0;
+    }
+  }
+
+  .em-box-body {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 0;
+
+    .em-image-render {
+      width: 70%;
+    }
+
+    canvas {
+      height: 400px;
+      width: 100%;
+    }
+
+    .em-image-preview {
+      border-left: 1px solid $border-color;
+      overflow: hidden;
+      padding-left: calc(100% - 99%);
+      width: 28%;
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .em-box-footer {
+    border-top: 2px splid $border-color;
+    line-height: 34px;
   }
 }

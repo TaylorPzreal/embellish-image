@@ -45,12 +45,9 @@ function initUploadModel(dom) {
  */
 function InitEmbellishImageModel(files) {
 
-  this.files = files;
-
   if (files && files.length) {
 
     // show canvas model 
-
     const modal = document.createElement('div');
     modal.className = 'em-modal';
 
@@ -60,11 +57,70 @@ function InitEmbellishImageModel(files) {
     modal.appendChild(modalBg);
 
     const modalContainer = document.createElement('div');
-    modalContainer.className = 'em-modal-container';
+    modalContainer.className = 'em-box';
+    modalContainer.innerHTML = `
+      <div class="em-box-header">
+        <h3>上传图片</h3>
+      </div>
+      <div class="em-box-body">
+        
+        <div class="em-image-render">
+          <canvas id="em-canvas"></canvas>
+        </div>
+        
+        <div class="em-image-preview">
+
+        </div>
+      </div>
+      <div class="em-box-footer">
+      
+      </div>
+    `;
 
     modal.appendChild(modalContainer);
 
     document.body.appendChild(modal);
+
+
+    // init image
+    const file = files[0];
+    const URL = window.URL || window.webkitURL;
+    const src = URL.createObjectURL(file);
+    const canvasContainer = document.getElementsByClassName('em-image-render')[0];
+    const width = canvasContainer.clientWidth;
+    const height = canvasContainer.clientHeight;
+    // const natureWidth = file.width;
+    // const natureHeight = file.height;
+    // let showWidth;
+    // let showHeight;
+    // if (natureWidth > natureHeight) {
+
+    //   showWidth = natureWidth > width ? width : natureWidth;
+    //   showHeight = parseFloat(natureHeight / natureWidth).toFixed(3) * showWidth;
+
+    // } else {
+
+    //   showHeight = natureHeight > height ? height : natureHeight;
+    //   showWidth = parseFloat(natureWidth / natureHeight).toFixed(3) * showHeight;
+    
+    // }
+
+    // console.warn(showHeight, showWidth, natureHeight, natureWidth, file);
+
+    const emCanvas = document.getElementById('em-canvas');
+    const context = emCanvas.getContext('2d');
+    const emImage = new Image();
+    emImage.src = src;
+
+    // preview
+    document.getElementsByClassName('em-image-preview')[0].appendChild(emImage);
+
+    emImage.onload = () => {
+
+      console.warn(this.width, this.height, emImage.width, emImage.height);
+      context.drawImage(emImage, 0, 0, width, height);
+
+    };
 
   }
 
