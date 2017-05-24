@@ -1,4 +1,4 @@
-var _this = undefined;
+var _this2 = undefined;
 
 // Module Defination
 
@@ -43,13 +43,11 @@ function initUploadModel(dom) {
  * @param {any} files 
  */
 function InitEmbellishImageModel(files) {
-
-  this.files = files;
+  var _this = this;
 
   if (files && files.length) {
 
     // show canvas model 
-
     var modal = document.createElement('div');
     modal.className = 'em-modal';
 
@@ -59,11 +57,51 @@ function InitEmbellishImageModel(files) {
     modal.appendChild(modalBg);
 
     var modalContainer = document.createElement('div');
-    modalContainer.className = 'em-modal-container';
+    modalContainer.className = 'em-box';
+    modalContainer.innerHTML = '\n      <div class="em-box-header">\n        <h3>\u4E0A\u4F20\u56FE\u7247</h3>\n      </div>\n      <div class="em-box-body">\n        \n        <div class="em-image-render">\n          <canvas id="em-canvas"></canvas>\n        </div>\n        \n        <div class="em-image-preview">\n\n        </div>\n      </div>\n      <div class="em-box-footer">\n      \n      </div>\n    ';
 
     modal.appendChild(modalContainer);
 
     document.body.appendChild(modal);
+
+    // init image
+    var file = files[0];
+    var URL = window.URL || window.webkitURL;
+    var src = URL.createObjectURL(file);
+    var canvasContainer = document.getElementsByClassName('em-image-render')[0];
+    var width = canvasContainer.clientWidth;
+    var height = canvasContainer.clientHeight;
+    // const natureWidth = file.width;
+    // const natureHeight = file.height;
+    // let showWidth;
+    // let showHeight;
+    // if (natureWidth > natureHeight) {
+
+    //   showWidth = natureWidth > width ? width : natureWidth;
+    //   showHeight = parseFloat(natureHeight / natureWidth).toFixed(3) * showWidth;
+
+    // } else {
+
+    //   showHeight = natureHeight > height ? height : natureHeight;
+    //   showWidth = parseFloat(natureWidth / natureHeight).toFixed(3) * showHeight;
+
+    // }
+
+    // console.warn(showHeight, showWidth, natureHeight, natureWidth, file);
+
+    var emCanvas = document.getElementById('em-canvas');
+    var context = emCanvas.getContext('2d');
+    var emImage = new Image();
+    emImage.src = src;
+
+    // preview
+    document.getElementsByClassName('em-image-preview')[0].appendChild(emImage);
+
+    emImage.onload = function () {
+
+      console.warn(_this.width, _this.height, emImage.width, emImage.height);
+      context.drawImage(emImage, 0, 0, width, height);
+    };
   }
 }
 
@@ -74,7 +112,7 @@ InitEmbellishImageModel.prototype.getBlobData = function () {
 
   // transferToBlobData
   console.warn(fileName, fileType);
-  transferToBlobData(_this.files);
+  transferToBlobData(_this2.files);
 };
 
 /**
