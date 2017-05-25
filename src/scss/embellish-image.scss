@@ -2,8 +2,17 @@
 $em-image-bgcolor: rgba(0, 0, 0, .4);
 $em-border-color: #ccc;
 $box-bgc: rgba(255, 255, 255, .9);
-$text-dark: #233142;
 $border-color: #455d7a;
+
+$text-dark: #233142;
+$text-white: rgba(255, 255, 255, .9);
+
+$btn-gray: rgba(0, 0, 0, .3);
+$btn-gray-active: rgba(0, 0, 0, .4);
+$btn-success: rgba(59, 180, 193, .7);
+$btn-success-active: rgba(59, 180, 193, .9);
+
+$drop-bg: rgba(0, 0, 0, .1);
 
 .em-modal {
   align-items: flex-start;
@@ -50,7 +59,12 @@ $border-color: #455d7a;
 
     h3 {
       color: $text-dark;
+      display: inline-flex;
       margin: 0;
+    }
+
+    div {
+      display: inline-block;
     }
   }
 
@@ -62,7 +76,25 @@ $border-color: #455d7a;
     padding: 10px 0;
 
     .em-image-render {
+      align-items: center;
+      display: flex;
+      height: 400px;
+      justify-content: center;
       width: 70%;
+    }
+
+    .em-drop-area {
+      align-items: center;
+      border: 1px dashed $border-color;
+      color: $text-dark;
+      display: flex;
+      height: 200px;
+      justify-content: center;
+      width: 80%;
+
+      &:hover {
+        background-color: $drop-bg;
+      }
     }
 
     canvas {
@@ -83,7 +115,87 @@ $border-color: #455d7a;
   }
 
   .em-box-footer {
-    border-top: 2px splid $border-color;
-    line-height: 34px;
+    border-top: 2px solid $border-color;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+  }
+
+  .em-cancel {
+    float: right;
+
+    span {
+      border-radius: 2px;
+      cursor: pointer;
+      float: left;
+      height: 30px;
+      position: relative;
+      width: 30px;
+
+      &:hover {
+        background-color: $btn-gray;
+      }
+
+      &:active {
+        background-color: $btn-gray-active;
+      }
+
+      &::after,
+      &::before {
+        background-color: $text-dark;
+        content: '';
+        height: 2px;
+        left: 4px;
+        position: absolute;
+        top: 14px;
+        width: 20px;
+      }
+
+      &::after {
+        transform: rotate(50deg);
+      }
+
+      &::before {
+        transform: rotate(-50deg);
+      }
+    }
+  }
+
+  .em-btn {
+    border-radius: 2px;
+    color: $text-dark;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0 2px;
+    padding: 6px 14px;
+    text-align: center;
+
+    &:hover {
+      color: $text-white;
+    }
+  }
+
+  .em-btn-secondary {
+
+    &:hover {
+      background-color: $btn-gray;
+    }
+
+    &:active {
+      background-color: $btn-gray-active;
+    }
+  }
+
+  .em-btn-success {
+
+    &:hover {
+      background-color: $btn-success;
+    }
+
+    &:active {
+      background-color: $btn-success-active;
+    }
   }
 }
