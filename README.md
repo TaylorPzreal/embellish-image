@@ -1,19 +1,25 @@
 # embellish-image
-上传本地图片,进行裁剪,优化,美化,装饰,并保存到本地或者保存到服务器
+A plugin that can upload local image, crop image, embellish image and save image to server or local. 
 
-正在开发中 ... 2017-05-17 08:57:13
+Developing ... 2017-05-26 12:44:04
 ![Upload Image](./src/images/upload.png)
 
-## 使用说明
+## Installation
+You can install this package either with ```npm``` or with ```yarn```.
+
+**Yarn**
 ```
 yarn install embellish-image
 ```
+**HTML**
 ```html
-<a id="upload" class="style">上传图片</a>
+<link rel="stylesheet" href="src/scss/embellish-image.scss">
 
-<a id="save">确认上传</a>
+<a id="upload" class="style">Upload Image</a>
+
+<a id="save">Submit</a>
 ```
-
+**JavaScript**
 ```js
 import EmbellishImage from 'embellish-image';
 
@@ -35,8 +41,11 @@ document.getElementById('save').onclick(function() {
 })
 ```
 
-## 产品需求
-- 图片上传
-- 封装保存图片到服务器的接口
-- 优化美化图片(Canvas的熟练应用)
-- 支持拍照上传
+## Plan
+ 
+- [ x ] upload image
+- [ ] save image to server
+- [ ] embellish image (canvas)
+- [ x ] enable drag and drop
+- [ ] enable responsive
+- [ ] support take a picture as upload
