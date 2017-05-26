@@ -49,3 +49,4 @@ document.getElementById('save').onclick(function() {
 - [x] enable drag and drop
 - [ ] enable responsive
 - [ ] support take a picture as upload
+- [ ] ...
