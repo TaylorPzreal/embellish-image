@@ -43,9 +43,9 @@ document.getElementById('save').onclick(function() {
 
 ## Plan
  
-- [ x ] upload image
+- [x] upload image
 - [ ] save image to server
 - [ ] embellish image (canvas)
-- [ x ] enable drag and drop
+- [x] enable drag and drop
 - [ ] enable responsive
 - [ ] support take a picture as upload
