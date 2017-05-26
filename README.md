@@ -34,7 +34,7 @@ const dom = document.getElementById('upload');
 // init
 const embellishImage = new EmbellishImage(dom, config);
 
-// <!--save-->
+// save to server
 document.getElementById('save').onclick(function() {
 
   embellishImage.save();
