@@ -281,7 +281,7 @@ function transferToBlobData(files) {
 // }
 
 /**
- * Save To Server
+ * Save To Server.
  */
 EmbellishImage.prototype.save = function () {
 
