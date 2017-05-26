@@ -11,6 +11,30 @@ var fileName = void 0;
 var fileType = void 0;
 var embellishImageModel = void 0;
 
+function addClass(dom, name) {
+
+  var className = dom.className;
+  if (className.indexOf(name) < 0) {
+
+    return className + ' ' + name;
+  } else {
+
+    return className;
+  }
+}
+
+function removeClass(dom, name) {
+
+  var className = dom.className;
+  if (className.indexOf(name) > -1) {
+
+    return className.split(name).join('').split(/\s+/).join(' ');
+  } else {
+
+    return className;
+  }
+}
+
 /**
  * init upload file model
  * 
@@ -18,30 +42,13 @@ var embellishImageModel = void 0;
  */
 function initUploadModel(dom) {
 
-  // const inputFile = document.createElement('input');
-  // inputFile.type = 'file';
-  // inputFile.hidden = true;
-  // dom.parentElement.appendChild(inputFile);
-
   // click upload btn Listener
   dom.addEventListener('click', function () {
-
-    // inputFile.click();
 
     // 初始化上传照片模版
     var initEmbellishImageModel = new InitEmbellishImageModel();
     initEmbellishImageModel.addAction();
   });
-
-  // selected File Listener
-  // inputFile.addEventListener('change', () => {
-
-  //   const files = inputFile.files;
-
-  //   // open edit model, preview, embellish image, cropper or add filters & so on ...
-  //   embellishImageModel = new InitEmbellishImageModel(files);
-
-  // });
 }
 
 /**
@@ -50,6 +57,27 @@ function initUploadModel(dom) {
  */
 function InitEmbellishImageModel() {
 
+  // 显示上传模态框
+  var modal = document.createElement('div');
+  modal.className = 'em-modal';
+
+  var modalBg = document.createElement('div');
+  modalBg.className = 'em-modal-bg';
+
+  modal.appendChild(modalBg);
+
+  var modalContainer = document.createElement('div');
+  modalContainer.className = 'em-box';
+  modalContainer.innerHTML = '\n     <div class="em-box-header">\n       <h3>\u4E0A\u4F20\u56FE\u7247</h3>\n       <div>\n         <a class="em-btn em-btn-secondary" onclick="document.getElementById(\'em-file\').click()">\u9009\u62E9\u56FE\u7247</a>\n         <input id="em-file" type="file" hidden>\n       </div>\n       <div class="em-cancel">\n        <span></span>\n       </div>\n     </div>\n     <div class="em-box-body">\n\n       <div class="em-image-render">\n        <div id="em-drop" class="em-drop-area">\n          You can drag an image and drop it here.\n        </div>\n       </div>\n        \n       <div class="em-image-preview">\n\n       </div>\n     </div>\n    <div class="em-box-footer">\n      <a id="em-cancel" class="em-btn em-btn-secondary">Cancel</a>\n      <a id="em-submit" class="em-btn em-btn-success">Submit</a>\n    </div>\n  ';
+
+  modal.appendChild(modalContainer);
+
+  document.body.appendChild(modal);
+}
+
+InitEmbellishImageModel.prototype.addAction = function () {
+
+  // Disable drag an image to the web page exclude #em-drop element.
   window.addEventListener('dragover', function (event) {
 
     var e = event || window.event;
@@ -61,85 +89,45 @@ function InitEmbellishImageModel() {
     e.preventDefault();
   }, false);
 
-  // show canvas model 
-  var modal = document.createElement('div');
-  modal.className = 'em-modal';
-
-  var modalBg = document.createElement('div');
-  modalBg.className = 'em-modal-bg';
-
-  modal.appendChild(modalBg);
-
-  var modalContainer = document.createElement('div');
-  modalContainer.className = 'em-box';
-  modalContainer.innerHTML = '\n     <div class="em-box-header">\n       <h3>\u4E0A\u4F20\u56FE\u7247</h3>\n       <div>\n         <a class="em-btn em-btn-secondary" onclick="document.getElementById(\'em-file\').click()">\u9009\u62E9\u56FE\u7247</a>\n         <input id="em-file" type="file" hidden>\n       </div>\n       <div class="em-cancel">\n        <span></span>\n       </div>\n     </div>\n     <div class="em-box-body">\n\n       <div class="em-image-render">\n        <div id="em-drop" class="em-drop-area">\n          <span>You can drag an image and drop it here.</span>\n        </div>\n       </div>\n        \n       <div class="em-image-preview">\n\n       </div>\n     </div>\n    <div class="em-box-footer">\n      <a id="em-cancel" class="em-btn em-btn-secondary">Cancel</a>\n      <a id="em-submit" class="em-btn em-btn-success">Submit</a>\n    </div>\n  ';
-
-  modal.appendChild(modalContainer);
-
-  document.body.appendChild(modal);
-
-  // init image
-  // const file = files[0];
-  // const URL = window.URL || window.webkitURL;
-  // const src = URL.createObjectURL(file);
-  // const canvasContainer = document.getElementsByClassName('em-image-render')[0];
-  // const width = canvasContainer.clientWidth;
-  // const height = canvasContainer.clientHeight;
-  // const natureWidth = file.width;
-  // const natureHeight = file.height;
-  // let showWidth;
-  // let showHeight;
-  // if (natureWidth > natureHeight) {
-
-  //   showWidth = natureWidth > width ? width : natureWidth;
-  //   showHeight = parseFloat(natureHeight / natureWidth).toFixed(3) * showWidth;
-
-  // } else {
-
-  //   showHeight = natureHeight > height ? height : natureHeight;
-  //   showWidth = parseFloat(natureWidth / natureHeight).toFixed(3) * showHeight;
-
-  // }
-
-  // console.warn(showHeight, showWidth, natureHeight, natureWidth, file);
-  // <-- <canvas id="em-canvas"></canvas> -->
-  // const emCanvas = document.getElementById('em-canvas');
-  // const context = emCanvas.getContext('2d');
-  // const emImage = new Image();
-  // emImage.src = src;
-
-  // // preview
-  // document.getElementsByClassName('em-image-preview')[0].appendChild(emImage);
-
-  // emImage.onload = () => {
-
-  //   console.warn(this.width, this.height, emImage.width, emImage.height);
-  //   context.drawImage(emImage, 0, 0, width, height);
-
-  // };
-
-  // }
-}
-
-InitEmbellishImageModel.prototype.addAction = function () {
-
   var dropArea = document.getElementById('em-drop');
-
-  console.warn('haha');
 
   dropArea.ondragover = function (event) {
 
     var ev = event || window.event;
     ev.preventDefault();
     ev.dataTransfer.dropEffect = 'copy';
-    console.warn('allow drop.');
+  };
+
+  dropArea.ondragenter = function () {
+
+    dropArea.className = addClass(dropArea, 'dragover');
+  };
+
+  dropArea.ondragleave = function () {
+
+    dropArea.className = removeClass(dropArea, 'dragover');
   };
 
   dropArea.ondrop = function (ev) {
 
     ev.preventDefault();
-    var data = ev.dataTransfer.files;
-    console.warn(data);
+    dropArea.className = removeClass(dropArea, 'dragover');
+
+    var files = ev.dataTransfer.files;
+    console.warn(files);
+
+    // 初始化渲染 canvas
+    new RenderEmbellishImageModel(files);
+  };
+
+  var selectFile = document.getElementById('em-file');
+  selectFile.onchange = function () {
+
+    var files = selectFile.files;
+    console.warn(files);
+
+    // 初始化渲染 canvas
+    new RenderEmbellishImageModel(files);
   };
 };
 
@@ -152,6 +140,47 @@ InitEmbellishImageModel.prototype.getBlobData = function () {
   console.warn(fileName, fileType);
   transferToBlobData(_this.files);
 };
+
+/**
+ * 展示渲染已选择的图片
+ * 裁剪， 美化， 获取裁剪数据 。。。
+ * 
+ * @param {any} files 
+ */
+function RenderEmbellishImageModel(files) {
+
+  if (files && files.length) {
+
+    var file = files[0];
+    fileName = file.name;
+    fileType = file.type;
+
+    var canvasContainer = document.getElementsByClassName('em-image-render')[0];
+    canvasContainer.removeChild(document.getElementById('em-drop'));
+
+    var width = canvasContainer.clientWidth;
+    var height = canvasContainer.clientHeight;
+
+    var canvas = document.createElement('canvas');
+    canvas.idName = addClass(canvas, 'em-canvas');
+    var ctx = canvas.getContext('2d');
+
+    var URL = window.URL || window.webkitURL;
+    var src = URL.createObjectURL(file);
+    var emImage = new Image();
+    emImage.src = src;
+
+    emImage.onload = function () {
+
+      ctx.drawImage(emImage, 0, 0, width, height);
+    };
+
+    // preview
+    document.getElementsByClassName('em-image-preview')[0].appendChild(emImage);
+
+    canvasContainer.appendChild(canvas);
+  }
+}
 
 /**
  * transfer to blob data
@@ -227,8 +256,6 @@ EmbellishImage.prototype.save = function () {
  * @param {any} config 
  */
 function EmbellishImage(dom, config) {
-
-  console.warn(dom, config);
 
   this.width = config.width || 200;
   this.height = config.height || 200;

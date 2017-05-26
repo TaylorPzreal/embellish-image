@@ -198,4 +198,8 @@ $drop-bg: rgba(0, 0, 0, .1);
       background-color: $btn-success-active;
     }
   }
+
+  .dragover {
+    background-color: $drop-bg;
+  }
 }

@@ -7,6 +7,40 @@ let fileName;
 let fileType;
 let embellishImageModel;
 
+function addClass(dom, name) {
+
+  const className = dom.className;
+  if (className.indexOf(name) < 0) {
+
+    return `${className} ${name}`;
+
+  } else {
+
+    return className;
+
+  }
+
+}
+
+function removeClass(dom, name) {
+
+  const className = dom.className;
+  if (className.indexOf(name) > -1) {
+
+    return className
+      .split(name)
+      .join('')
+      .split(/\s+/)
+      .join(' ');
+
+  } else {
+
+    return className;
+
+  }
+
+}
+
 /**
  * init upload file model
  * 
@@ -14,31 +48,14 @@ let embellishImageModel;
  */
 function initUploadModel(dom) {
 
-  // const inputFile = document.createElement('input');
-  // inputFile.type = 'file';
-  // inputFile.hidden = true;
-  // dom.parentElement.appendChild(inputFile);
-
   // click upload btn Listener
   dom.addEventListener('click', () => {
-
-    // inputFile.click();
 
     // 初始化上传照片模版
     const initEmbellishImageModel = new InitEmbellishImageModel();
     initEmbellishImageModel.addAction();
 
   });
-
-  // selected File Listener
-  // inputFile.addEventListener('change', () => {
-
-  //   const files = inputFile.files;
-
-  //   // open edit model, preview, embellish image, cropper or add filters & so on ...
-  //   embellishImageModel = new InitEmbellishImageModel(files);
-
-  // });
 
 }
 
@@ -48,20 +65,7 @@ function initUploadModel(dom) {
  */
 function InitEmbellishImageModel() {
 
-  window.addEventListener('dragover',(event) =>  {
-
-    const e = event || window.event;
-    e.preventDefault();
-
-  },false);
-  window.addEventListener('drop',(event) =>  {
-
-    const e = event || window.event;
-    e.preventDefault();
-
-  },false);
-
-  // show canvas model 
+  // 显示上传模态框
   const modal = document.createElement('div');
   modal.className = 'em-modal';
 
@@ -87,7 +91,7 @@ function InitEmbellishImageModel() {
 
        <div class="em-image-render">
         <div id="em-drop" class="em-drop-area">
-          <span>You can drag an image and drop it here.</span>
+          You can drag an image and drop it here.
         </div>
        </div>
         
@@ -105,71 +109,67 @@ function InitEmbellishImageModel() {
 
   document.body.appendChild(modal);
 
-
-  // init image
-  // const file = files[0];
-  // const URL = window.URL || window.webkitURL;
-  // const src = URL.createObjectURL(file);
-  // const canvasContainer = document.getElementsByClassName('em-image-render')[0];
-  // const width = canvasContainer.clientWidth;
-  // const height = canvasContainer.clientHeight;
-  // const natureWidth = file.width;
-  // const natureHeight = file.height;
-  // let showWidth;
-  // let showHeight;
-  // if (natureWidth > natureHeight) {
-
-  //   showWidth = natureWidth > width ? width : natureWidth;
-  //   showHeight = parseFloat(natureHeight / natureWidth).toFixed(3) * showWidth;
-
-  // } else {
-
-  //   showHeight = natureHeight > height ? height : natureHeight;
-  //   showWidth = parseFloat(natureWidth / natureHeight).toFixed(3) * showHeight;
-
-  // }
-
-  // console.warn(showHeight, showWidth, natureHeight, natureWidth, file);
-  // <-- <canvas id="em-canvas"></canvas> -->
-  // const emCanvas = document.getElementById('em-canvas');
-  // const context = emCanvas.getContext('2d');
-  // const emImage = new Image();
-  // emImage.src = src;
-
-  // // preview
-  // document.getElementsByClassName('em-image-preview')[0].appendChild(emImage);
-
-  // emImage.onload = () => {
-
-  //   console.warn(this.width, this.height, emImage.width, emImage.height);
-  //   context.drawImage(emImage, 0, 0, width, height);
-
-  // };
-
-  // }
-
 }
 
 InitEmbellishImageModel.prototype.addAction = () => {
 
-  const dropArea = document.getElementById('em-drop');
+  // Disable drag an image to the web page exclude #em-drop element.
+  window.addEventListener('dragover', (event) => {
 
-  console.warn('haha');
+    const e = event || window.event;
+    e.preventDefault();
+
+  }, false);
+  window.addEventListener('drop', (event) => {
+
+    const e = event || window.event;
+    e.preventDefault();
+
+  }, false);
+
+  const dropArea = document.getElementById('em-drop');
 
   dropArea.ondragover = (event) => {
 
     const ev = event || window.event;
     ev.preventDefault();
     ev.dataTransfer.dropEffect = 'copy';
-    console.warn('allow drop.');
+
+  };
+
+  dropArea.ondragenter = () => {
+
+    dropArea.className = addClass(dropArea, 'dragover');
+
+  };
+
+  dropArea.ondragleave = () => {
+
+    dropArea.className = removeClass(dropArea, 'dragover');
 
   };
 
   dropArea.ondrop = (ev) => {
 
     ev.preventDefault();
-    const data = ev.dataTransfer.files;
-    console.warn(data);
+    dropArea.className = removeClass(dropArea, 'dragover');
+
+    const files = ev.dataTransfer.files;
+    console.warn(files);
+
+    // 初始化渲染 canvas
+    new RenderEmbellishImageModel(files);
+
+  };
+
+  const selectFile = document.getElementById('em-file');
+  selectFile.onchange = () => {
+
+    const files = selectFile.files;
+    console.warn(files);
+
+    // 初始化渲染 canvas
+    new RenderEmbellishImageModel(files);
 
   };
 
@@ -185,6 +185,50 @@ InitEmbellishImageModel.prototype.getBlobData = () => {
   transferToBlobData(this.files);
 
 };
+
+/**
+ * 展示渲染已选择的图片
+ * 裁剪， 美化， 获取裁剪数据 。。。
+ * 
+ * @param {any} files 
+ */
+function RenderEmbellishImageModel(files) {
+
+  if (files && files.length) {
+
+    const file = files[0];
+    fileName = file.name;
+    fileType = file.type;
+
+    const canvasContainer = document.getElementsByClassName('em-image-render')[0];
+    canvasContainer.removeChild(document.getElementById('em-drop'));
+
+    const width = canvasContainer.clientWidth;
+    const height = canvasContainer.clientHeight;
+
+    const canvas = document.createElement('canvas');
+    canvas.idName = addClass(canvas, 'em-canvas');
+    const ctx = canvas.getContext('2d');
+
+    const URL = window.URL || window.webkitURL;
+    const src = URL.createObjectURL(file);
+    const emImage = new Image();
+    emImage.src = src;
+
+    emImage.onload = () => {
+
+      ctx.drawImage(emImage, 0, 0, width, height);
+
+    };
+
+    // preview
+    document.getElementsByClassName('em-image-preview')[0].appendChild(emImage);
+
+    canvasContainer.appendChild(canvas);
+
+  }
+
+}
 
 /**
  * transfer to blob data
@@ -265,9 +309,6 @@ EmbellishImage.prototype.save = function () {
  * @param {any} config 
  */
 function EmbellishImage(dom, config) {
-
-  console.warn(dom, config);
-
 
   this.width = config.width || 200;
   this.height = config.height || 200;
