@@ -156,11 +156,11 @@ function RenderEmbellishImageModel(files) {
     var canvasContainer = document.getElementsByClassName('em-image-render')[0];
     canvasContainer.removeChild(document.getElementById('em-drop'));
 
-    var width = canvasContainer.clientWidth;
-    var height = canvasContainer.clientHeight;
+    // const width = canvasContainer.clientWidth;
+    // const height = canvasContainer.clientHeight;
 
     var canvas = document.createElement('canvas');
-    canvas.idName = addClass(canvas, 'em-canvas');
+    canvas.idName = 'em-canvas';
     var ctx = canvas.getContext('2d');
 
     var URL = window.URL || window.webkitURL;
@@ -170,7 +170,18 @@ function RenderEmbellishImageModel(files) {
 
     emImage.onload = function () {
 
-      ctx.drawImage(emImage, 0, 0, width, height);
+      var sX = 0;
+      var sY = 0;
+      var sWidth = 1134;
+      var sHeight = 842;
+      var dX = 0;
+      var dY = 0;
+      var dWidth = 200;
+      var dHeight = parseFloat(842 / 1134).toFixed(4) * 200;
+      console.warn(dWidth, dHeight);
+      // ctx.scale(2, 2);
+      // ctx.rotate(20 * Math.PI / 180);
+      ctx.drawImage(emImage, sX, sY, sWidth, sHeight, dX, dY, sWidth, sHeight);
     };
 
     // preview
@@ -229,7 +240,7 @@ function transferToBlobData(files) {
 // }
 
 /**
- * Save To Server
+ * Save To Server.
  */
 EmbellishImage.prototype.save = function () {
 

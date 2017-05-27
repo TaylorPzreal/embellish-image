@@ -203,11 +203,11 @@ function RenderEmbellishImageModel(files) {
     const canvasContainer = document.getElementsByClassName('em-image-render')[0];
     canvasContainer.removeChild(document.getElementById('em-drop'));
 
-    const width = canvasContainer.clientWidth;
-    const height = canvasContainer.clientHeight;
+    // const width = canvasContainer.clientWidth;
+    // const height = canvasContainer.clientHeight;
 
     const canvas = document.createElement('canvas');
-    canvas.idName = addClass(canvas, 'em-canvas');
+    canvas.idName = 'em-canvas';
     const ctx = canvas.getContext('2d');
 
     const URL = window.URL || window.webkitURL;
@@ -217,7 +217,18 @@ function RenderEmbellishImageModel(files) {
 
     emImage.onload = () => {
 
-      ctx.drawImage(emImage, 0, 0, width, height);
+      const sX = 0;
+      const sY = 0;
+      const sWidth = 1134;
+      const sHeight = 842;
+      const dX = 0;
+      const dY = 0;
+      const dWidth = 200;
+      const dHeight = parseFloat(842 / 1134).toFixed(4) * 200;
+      console.warn(dWidth, dHeight);
+      // ctx.scale(2, 2);
+      // ctx.rotate(20 * Math.PI / 180);
+      ctx.drawImage(emImage, sX, sY, sWidth, sHeight, dX, dY, sWidth, sHeight);
 
     };
 
