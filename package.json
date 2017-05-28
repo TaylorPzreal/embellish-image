@@ -1,6 +1,6 @@
 {
   "name": "embellish-image",
-  "version": "1.2.0-beta.2",
+  "version": "1.2.0-beta.3",
   "description": "upload image & embellish image & save image to local or server.",
   "main": "dist/js/embellish-image.js",
   "module": "dist/js/embellish-image.es.js",

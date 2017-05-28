@@ -164,6 +164,10 @@ function RenderEmbellishImageModel(files) {
 
     var canvas = document.createElement('canvas');
     canvas.idName = 'em-canvas';
+    canvas.className = 'em-canvas';
+    // canvas.style.cursor = 'move';
+    canvasContainer.appendChild(canvas);
+
     var ctx = canvas.getContext('2d');
 
     var URL = window.URL || window.webkitURL;
@@ -175,22 +179,56 @@ function RenderEmbellishImageModel(files) {
 
       var sX = 0;
       var sY = 0;
-      var sWidth = 1134;
-      var sHeight = 842;
+      var sWidth = emImage.width;
+      var sHeight = emImage.height;
       var dX = 0;
       var dY = 0;
-      var dWidth = 200;
-      var dHeight = parseFloat(842 / 1134).toFixed(4) * 200;
-      console.warn(dWidth, dHeight);
-      // ctx.scale(2, 2);
+      var dWidth = sWidth;
+      var dHeight = Math.ceil(parseFloat(842 / 1134).toFixed(4) * dWidth);
+      console.warn(dWidth, dHeight, sWidth, sHeight);
+
+      canvas.width = 686 * 2;
+      canvas.height = 800;
+
+      // Create clipping region
+      // ctx.arc(100, 100, 75, 0, Math.PI * 2, false);
+      // ctx.clip();
+
+      // ctx.clearRect(0, 0, sWidth, sHeight);
+      ctx.drawImage(emImage, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
+
+      canvas.addEventListener('mousewheel', function (e) {
+
+        console.warn(e);
+
+        if (e.wheelDelta >= 0) {
+          // 缩小图片
+
+          ctx.drawImage(emImage, sX, sY, sWidth, sHeight, dX, dY, dWidth + e.wheelDelta, dHeight + e.wheelDelta);
+        } else {
+          // 放大图片
+
+          ctx.drawImage(emImage, sX, sY, sWidth, sHeight, dX, dY, dWidth + e.wheelDelta, dHeight + e.wheelDelta);
+        }
+      });
+      // ctx.scale(-1, 1);
       // ctx.rotate(20 * Math.PI / 180);
-      ctx.drawImage(emImage, sX, sY, sWidth, sHeight, dX, dY, sWidth, sHeight);
+
+      // 参考线
+      var rW = 400;
+      var rH = 400;
+      var rX = Math.ceil((canvas.width - rW) / 2);
+      var rY = Math.ceil((canvas.height - rH) / 2);
+      ctx.setLineDash([5, 15]);
+      ctx.strokeStyle = '#3bb4c1';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(rX, rY, rW, rH);
+
+      // 给矩形添加 move cursor
     };
 
     // preview
-    document.getElementsByClassName('em-image-preview')[0].appendChild(emImage);
-
-    canvasContainer.appendChild(canvas);
+    // document.getElementsByClassName('em-image-preview')[0].appendChild(emImage);
   }
 }
 

@@ -6,14 +6,14 @@ import commonjs from 'rollup-plugin-commonjs';
 export default {
   entry: 'src/js/embellish-image.js',
 
-  format: 'iife', // cjs , es , iife, 
-  dest: 'dist/js/embellish-image.browser.js',
+  // format: 'iife', // cjs , es , iife, 
+  // dest: 'dist/js/embellish-image.browser.js',
 
   // format: 'es',
   // dest: 'dist/js/embellish-image.es.js',
 
-  // format: 'cjs',
-  // dest: 'dist/js/embellish-image.js',
+  format: 'cjs',
+  dest: 'dist/js/embellish-image.js',
 
   moduleName: 'EmbellishImage',
   plugins: [
