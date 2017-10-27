@@ -1,17 +1,22 @@
 # embellish-image
-A plugin that can upload local image, crop image, embellish image and save image to server or local. 
 
-Developing ... 2017-05-26 12:44:04
+A plugin that can upload local image, crop image, embellish image and save image to server or local.
+
+v2.0.0 js to ts reconstructing ... 2017-10-28
 ![Upload Image](./src/images/upload.png)
 
 ## Installation
-You can install this package either with ```npm``` or with ```yarn```.
 
-**Yarn**
+You can install this package either with ```npm```.
+
+**Npm**
+
+```bash
+npm install embellish-image
 ```
-yarn install embellish-image
-```
+
 **HTML**
+
 ```html
 <link rel="stylesheet" href="src/scss/embellish-image.scss">
 
@@ -19,7 +24,9 @@ yarn install embellish-image
 
 <a id="save">Submit</a>
 ```
+
 **JavaScript**
+
 ```js
 import EmbellishImage from 'embellish-image';
 
@@ -42,7 +49,7 @@ document.getElementById('save').onclick(function() {
 ```
 
 ## Plan
- 
+
 - [x] upload image
 - [ ] save image to server
 - [ ] embellish image (canvas)
