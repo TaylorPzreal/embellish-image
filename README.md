@@ -7,45 +7,26 @@ v2.0.0 js to ts reconstructing ... 2017-10-28
 
 ## Installation
 
-You can install this package either with ```npm```.
-
-**Npm**
-
 ```bash
 npm install embellish-image
 ```
 
-**HTML**
+## Usage
 
-```html
-<link rel="stylesheet" href="src/scss/embellish-image.scss">
+```ts
+import { EmbellishImage } from 'embellish-image';
+const option = {};
 
-<a id="upload" class="style">Upload Image</a>
+const em = new EmbellishImage(option);
 
-<a id="save">Submit</a>
-```
-
-**JavaScript**
-
-```js
-import EmbellishImage from 'embellish-image';
-
-const config = {
-  width: 400,
-  height: 300,
-  serverURL: 'server url here.'
-};
-
-const dom = document.getElementById('upload');
-
-// init
-const embellishImage = new EmbellishImage(dom, config);
-
-// save to server
-document.getElementById('save').onclick(function() {
-
-  embellishImage.save();
-})
+em.init(); // init container
+em.uploadLocal(); // upload from local
+em.uploadURL(); // upload from an URL
+em.cropper();
+em.getCanvasData();
+em.saveToLocal(); // download img
+em.saveToServer(); // save to server
+em.cancel(); // cancel edit
 ```
 
 ## Plan

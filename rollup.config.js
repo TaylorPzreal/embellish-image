@@ -7,7 +7,7 @@ import postcss from 'postcss';
 // import uglify from 'rollup-plugin-uglify';
 
 export default {
-  input: 'src/js/embellish-image.js',
+  input: 'src/index.ts',
 
   output: [
     {

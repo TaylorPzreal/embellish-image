@@ -6,17 +6,13 @@ const helpers = require('./helpers');
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: {
-    'app': './src/example/test.js',
+    'app': './demos/index.js',
   },
   output: {
     path: helpers.root('dist'),
   },
   module: {
     rules: [{
-      test: /\.js$/,
-      enforce: 'pre',
-      use: 'eslint-loader',
-    }, {
       test: /\.js$/,
       use: [{
         loader: 'babel-loader',
@@ -80,7 +76,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({ // 可以自动注入 script, link标签
-      template: 'src/example/index.html',
+      template: 'demos/index.html',
     }),
     // 提取出所有CSS为一个公共文件 主要用于生产环境
     new ExtractTextPlugin({
