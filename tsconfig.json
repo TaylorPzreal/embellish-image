@@ -13,7 +13,4 @@
     "typeRoots": ["node_modules/@types"]
   },
   "files": ["./src"]
-  // "angularCompilerOptions": {
-  //   "skipTemplateCodegen": true
-  // }
 }
