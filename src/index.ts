@@ -1,7 +1,7 @@
 import { Option } from './model';
 
 export class EmbellishImage {
-  constructor(private e: Element | string, private option?: Option) {
+  constructor(private e: Element | '', private option?: Option) {
     // do config
   }
 
