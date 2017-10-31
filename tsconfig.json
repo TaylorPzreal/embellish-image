@@ -4,16 +4,22 @@
     "target": "es5",
     "module": "es2015",
     "sourceMap": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "declaration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "declaration": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": false,
+    "pretty": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnreachableCode": false,
     "outDir": "./dist",
     "lib": ["es2017", "dom"],
     "typeRoots": ["node_modules/@types"]
-  },
-  "files": ["./src"]
-  // "angularCompilerOptions": {
-  //   "skipTemplateCodegen": true
-  // }
+  }
 }
