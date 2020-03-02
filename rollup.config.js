@@ -1,50 +1,38 @@
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import typescript from 'rollup-plugin-typescript';
-import sass from 'rollup-plugin-sass';
-import autoprefixer from 'autoprefixer';
-import postcss from 'postcss';
-// import uglify from 'rollup-plugin-uglify';
+import typescript from 'rollup-plugin-typescript2';
+import { terser } from 'rollup-plugin-terser';
 
 export default {
-  input: 'src/index.ts',
+  input: {
+    index: 'src/index.ts',
+    embellish: 'src/embellish.ts',
+    file: 'src/file.ts',
+    util: 'src/util.ts'
+  },
 
   output: [
     {
-      file: 'dist/embellish-image.js',
-      format: 'umd',
-      name: 'EmbellishImage',
-      sourcemap: true
-    },
-    {
-      file: 'dist/embellish-image.es.js',
-      format: 'es',
+      dir: 'dist',
+      format: 'esm',
       sourcemap: true
     }
   ],
 
   plugins: [
     typescript({
-      typescript: require('typescript')
-    }),
-    resolve({
-      module: true,
-      main: true
-      // browser: true,
+      useTsconfigDeclarationDir: true,
     }),
     commonjs({
       include: 'node_modules/**'
     }),
-    sass({
-      processor: css =>
-        postcss([autoprefixer])
-          .process(css)
-          .then(result => result.css)
-    })
-    // babel({exclude: 'node_modules/**'}),
-    // uglify(),
+    resolve(),
+    terser(),
   ],
-  external: []
+  external: [],
+  watch: {
+    include: 'src/**'
+  }
 
   // onwarn: [],
   // cache: []

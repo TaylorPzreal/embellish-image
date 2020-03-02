@@ -1,10 +1,28 @@
-import { EmbellishImage } from '../dist/embellish-image.es';
-// import '../scss/embellish-image.scss';
-
-const dom = document.getElementById('embellish-image');
+const { EmbellishImage, getImageURL } = EmbellishBundle;
+const dom = document.getElementById('canvas');
 const config = {
-  width: 100,
-  heigh: 100,
+  width: 200,
+  heigh: 200,
 };
 
-const em = new EmbellishImage(dom, config);
+const embellish = new EmbellishImage(dom, config);
+
+const inputImage = document.getElementById('image');
+inputImage.addEventListener('change', (ev) => {
+  const src = getImageURL(ev);
+  embellish.renderImage(src);
+});
+
+function gray() {
+  const data = embellish.getImageData();
+  embellish.grayscale(data);
+}
+
+function invert() {
+  const data = embellish.getImageData();
+  embellish.invert(data);
+}
+
+function reset() {
+  embellish.reset();
+}

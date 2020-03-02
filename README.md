@@ -1,15 +1,6 @@
 # embellish-image
 
-A plugin that can upload local image, crop image, embellish image and save image to server or local.
-
-v2.0.0 js to ts reconstructing ... 2017-10-28
-![Upload Image](./src/images/upload.png)
-
-## Installation
-
-```bash
-npm install embellish-image
-```
+> v2.0.0👏 A plugin that can upload local image, crop image, embellish image and export image to server or local.
 
 ## Usage
 
@@ -19,6 +10,7 @@ const option = {};
 
 const em = new EmbellishImage(option);
 
+// General API
 em.init(); // init container
 em.uploadLocal(); // upload from local
 em.uploadURL(); // upload from an URL

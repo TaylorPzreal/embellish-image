@@ -9,31 +9,27 @@
 </head>
 
 <body>
-  <div id="haha">Upload Image</div>
+  <header>
+    <h1>Embellish-Image</h1>
+  </header>
 
-  <div class="embellish-image-container">
-    <a href="JavaScript: void(0)" id="embellish-image" class="btn btn-primary">上传图片</a>
-    <a href="JavaScript: void(0)" id="save" class="btn btn-save">保存</a>
+  <div>
+    <input type="file" name="image" id="image" accept="image/*">
   </div>
 
-  <!--<script src="../js/embellish-image.js"></script>-->
-  <!--<script src="./test.js"></script>-->
-  <script>
-    // import EmbellishImage from '../js/embellish-image.js';
+  <div>
+    <canvas id="canvas" width="400" height="400" style="background-color: rgba(95, 158, 160, 0.2);">Your browser not support canvas. Recommend you use Chrome Browser.</canvas>
+  </div>
 
-    // const dom = new EmbellishImage('haha');
-    // var embellishImage = new EmbellishImage('haha', {
-    //   width: 400,
-    //   height: 300
-    // });
+  <footer>
+    <button onclick="gray()">Gray</button>
+    <button onclick="invert()">Invert</button>
+    <button onclick="reset()">reset</button>
+    <button>Save</button>
+  </footer>
 
-    // var size = embellishImage.getSize();
-
-    // console.warn(size);
-
-    // console.log(embellishImage.prototype);
-    // console.log(EmbellishImage.prototype);
-  </script>
+  <script src="../dist/index.min.js"></script>
+  <script src="index.js"></script>
 </body>
 
 </html>

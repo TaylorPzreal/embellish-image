@@ -1,22 +1,21 @@
 {
   "name": "embellish-image",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0",
   "description": "upload image & embellish image & save image to local or server.",
-  "main": "dist/embellish-image.js",
-  "module": "dist/embellish-image.es.js",
-  "unpkg": "src/index.ts",
+  "browser": "dist/index.min.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "src",
     "LICENSE",
     "README.md"
   ],
   "scripts": {
-    "start": "webpack-dev-server --progress --profile --colors --hot",
-    "dev": "rollup -c -w",
-    "build": "rollup -c && tsc",
-    "test": "webpack"
+    "start": "rollup -c -w",
+    "build": "rm -rf dist && yarn build-esm && yarn build-iife",
+    "build-iife": "rollup -c rollup.config.iife.js",
+    "build-esm": "rollup -c rollup.config.js && tsc",
+    "test": "npx http-server ./ -p 9000"
   },
   "repository": {
     "type": "git",
@@ -36,31 +35,15 @@
   },
   "homepage": "https://github.com/TaylorPzreal/embellish-image#readme",
   "devDependencies": {
-    "autoprefixer": "^7.1.6",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.0",
-    "babel-preset-env": "^1.6.1",
-    "css-loader": "^0.28.7",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "html-webpack-plugin": "^2.30.1",
-    "node-sass": "^4.5.3",
-    "postcss": "^6.0.13",
-    "postcss-loader": "^2.0.6",
-    "precss": "^1.4.0",
-    "rollup": "^0.50.0",
-    "rollup-plugin-commonjs": "^8.2.5",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-sass": "^0.5.3",
-    "rollup-plugin-typescript": "^0.8.1",
-    "rollup-plugin-uglify": "^2.0.1",
-    "rollup-watch": "^4.3.1",
-    "sass-lint": "^1.12.1",
-    "sass-loader": "^6.0.6",
-    "style-loader": "^0.19.0",
-    "tslint": "^5.8.0",
-    "typescript": "^2.5.3",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.3"
+    "@babel/core": "7.8.6",
+    "@babel/preset-env": "7.8.6",
+    "rollup": "1.32.0",
+    "rollup-plugin-babel": "4.3.3",
+    "rollup-plugin-commonjs": "10.1.0",
+    "rollup-plugin-node-resolve": "5.2.0",
+    "rollup-plugin-terser": "5.2.0",
+    "rollup-plugin-typescript2": "0.26.0",
+    "typescript": "3.8.3"
   },
   "dependencies": {}
 }
