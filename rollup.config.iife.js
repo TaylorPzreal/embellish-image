@@ -1,6 +1,8 @@
 import typescript from 'rollup-plugin-typescript2';
-import { terser } from 'rollup-plugin-terser';
+import resolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
+import { terser } from 'rollup-plugin-terser';
 
 export default {
   input: 'src/index.ts',
@@ -10,7 +12,10 @@ export default {
       file: 'dist/index.min.js',
       name: 'EmbellishBundle',
       format: 'iife',
-      sourcemap: false
+      sourcemap: false,
+      globals: {
+        'd3': 'd3',
+      },
     }
   ],
 
@@ -22,6 +27,8 @@ export default {
       exclude: 'node_modules/**',
       babelrc: true,
     }),
+    resolve(),
+    commonjs(),
     terser(),
   ],
   external: [],

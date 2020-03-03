@@ -23,13 +23,11 @@ export default {
     typescript({
       useTsconfigDeclarationDir: true,
     }),
-    commonjs({
-      include: 'node_modules/**'
-    }),
     resolve(),
+    commonjs(),
     terser(),
   ],
-  external: [],
+  external: ['d3'],
   watch: {
     include: 'src/**'
   }

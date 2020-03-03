@@ -1,3 +1,5 @@
+import { event } from 'd3';
+
 function grayscale(imageData: ImageData): ImageData {
   const { data, width, height } = imageData;
   const result: ImageData = new ImageData(new Uint8ClampedArray(data), width, height);
@@ -46,9 +48,22 @@ function scaleToFit(canvas: HTMLCanvasElement, img:HTMLImageElement) {
   return [dx, dy, dWidth, dHeight];
 }
 
+function zoomCallback(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, callback: () => void) {
+  const transform = event.transform;
+  const { width, height } = canvas;
+
+  ctx.save();
+  ctx.clearRect(0, 0, width, height);
+  ctx.translate(transform.x, transform.y);
+  ctx.scale(transform.k, transform.k);
+  callback();
+  ctx.restore();
+}
+
 export {
   grayscale,
   invert,
   scaleToFill,
   scaleToFit,
+  zoomCallback,
 }
