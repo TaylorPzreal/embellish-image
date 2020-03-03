@@ -22,10 +22,12 @@
   </div>
 
   <footer>
-    <button onclick="gray()">Gray</button>
+    <button onclick="gray()">Grayscale</button>
     <button onclick="invert()">Invert</button>
+    <input type="range" name="brightness" id="brightness" min="-10" max="10">Brightness
+    <input type="range" name="contrast" id="contrast" min="-10" max="10">Contrast
     <button onclick="reset()">reset</button>
-    <button>Save</button>
+    <button onclick="save()">Save</button>
   </footer>
 
   <script src="/dist/index.min.js"></script>

@@ -14,15 +14,39 @@ inputImage.addEventListener('change', (ev) => {
 });
 
 function gray() {
-  const data = embellish.getImageData();
-  embellish.grayscale(data);
+  embellish.grayscale();
 }
 
 function invert() {
-  const data = embellish.getImageData();
-  embellish.invert(data);
+  embellish.invert();
 }
 
 function reset() {
   embellish.reset();
+}
+
+const brightness = document.getElementById('brightness');
+brightness.addEventListener('change', (ev) => {
+  const value = brightness.value;
+  console.log('Brightness: ', value);
+  embellish.brightness(value);
+});
+
+const contrast = document.getElementById('contrast');
+contrast.addEventListener('change', () => {
+  const value = contrast.value;
+  console.log(value);
+  embellish.contrast(value);
+});
+
+function save() {
+  embellish.exportImage((blob) => {
+    const img = new Image();
+    const src = URL.createObjectURL(blob);
+    img.onload = function(ev) {
+      // URL.revokeObjectURL(src);
+      document.body.append(img);
+    }
+    img.src = src;
+  })
 }

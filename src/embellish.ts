@@ -1,6 +1,6 @@
 import { zoom, select, zoomIdentity } from 'd3';
 import { Option, Operation, OperationName } from './model';
-import { grayscale, invert, scaleToFill, zoomCallback } from './util';
+import { grayscale, invert, scaleToFill, zoomCallback, brightness, contrast } from './util';
 
 export default class EmbellishImage {
   private canvas: HTMLCanvasElement;
@@ -26,19 +26,18 @@ export default class EmbellishImage {
         this.ctx.drawImage(this.imageFile, ...data);
         this.ctx.restore();
         this.operationList.forEach((op) => {
-          const imageData = this.getImageData();
           switch(op.name) {
             case OperationName.grayscale:
-              this.innerGrayScale(imageData);
+              this.innerGrayScale();
               break;
             case OperationName.invert:
-              this.innerInvert(imageData);
+              this.innerInvert();
               break;
             case OperationName.brightness:
-              this.brightness();
+              this.innerBrightness(op.config.value);
               break;
             case OperationName.contrast:
-              this.contrast();
+              this.innerContrast(op.config.value);
               break;
           }
         });
@@ -61,40 +60,55 @@ export default class EmbellishImage {
     return result;
   }
 
+  public getLastImageData() {
+
+  }
+
   public setRGB(r: number, g: number, b: number) {
 
   }
 
-  // private getColorIndicesForCoord(x: number, y:number, canvasWidth:number) {
-  //   var red = y * (canvasWidth * 4) + x * 4;
-  //   return [red, red + 1, red + 2, red + 3];
-  // }
-
-  public brightness() {
-
+  private innerBrightness(value: number = 0) {
+    const imageData = this.getImageData();
+    const result = brightness(imageData, value);
+    this.renderData(result, 0, 0);
   }
 
-  public contrast() {
-
+  public brightness(value: number = 0) {
+    this.innerBrightness(value);
+    this.operationList.push({ name: OperationName.brightness, config: { value } });
   }
 
-  private innerGrayScale(imageData: ImageData) {
+  private innerContrast(value: number = 0) {
+    const imageData = this.getImageData();
+    const result = contrast(imageData, value);
+    this.renderData(result, 0, 0);
+  }
+
+  public contrast(value: number = 0) {
+    this.innerContrast(value);
+    this.operationList.push({ name: OperationName.contrast, config: { value } });
+  }
+
+  private innerGrayScale() {
+    const imageData = this.getImageData();
     const result = grayscale(imageData);
     this.renderData(result, 0, 0);
   }
 
-  public grayscale(imageData: ImageData) {
-    this.innerGrayScale(imageData);
+  public grayscale() {
+    this.innerGrayScale();
     this.operationList.push({ name: OperationName.grayscale })
   }
 
-  private innerInvert(imageData: ImageData) {
+  private innerInvert() {
+    const imageData = this.getImageData();
     const result = invert(imageData);
     this.renderData(result, 0, 0);
   }
 
-  public invert(imageData: ImageData) {
-    this.innerInvert(imageData);
+  public invert() {
+    this.innerInvert();
     this.operationList.push({ name: OperationName.invert })
   }
 
@@ -116,5 +130,9 @@ export default class EmbellishImage {
 
   private getFillData():[number, number, number, number] {
     return scaleToFill(this.canvas, this.imageFile);
+  }
+
+  public exportImage(callback: BlobCallback, type?: string, quality?: any) {
+    this.canvas.toBlob(callback, type, quality);
   }
 }

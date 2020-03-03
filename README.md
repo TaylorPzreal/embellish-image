@@ -17,16 +17,17 @@ inputImage.addEventListener('change', (ev) => {
   embellish.renderImage(src);
 });
 
-// grayscale
-const data = embellish.getImageData();
-embellish.grayscale(data);
+const value = 2;
 
-// invert
-const data = embellish.getImageData();
-embellish.invert(data);
+embellish.grayscale();
+embellish.invert();
+embellish.brightness(value);
+embellish.contrast(value);
 
-// reset
+// reset all changes
 embellish.reset();
+
+embellish.exportImage(callback, type?:string, quality?:any);
 ```
 
 ## Features
@@ -36,6 +37,9 @@ embellish.reset();
 - zoom
 - invert
 - grayscale
+- brightness
+- contrast
+- export image to blob
 
 ## Development
 
