@@ -36,3 +36,28 @@ embellish.reset();
 - zoom
 - invert
 - grayscale
+
+## Development
+
+```bash
+git clone git@github.com:TaylorPzreal/embellish-image.git
+cd embellish-image
+
+yarn install
+```
+
+For test
+
+```bash
+yarn start
+yarn server
+
+# open url
+http://127.0.0.1:9000/demos/
+```
+
+For prod
+
+```bash
+yarn build
+```
