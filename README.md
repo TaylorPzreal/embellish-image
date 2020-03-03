@@ -5,28 +5,34 @@
 ## Usage
 
 ```ts
-import { EmbellishImage } from 'embellish-image';
+import { EmbellishImage, getImageURL } from 'embellish-image';
 const option = {};
 
-const em = new EmbellishImage(option);
+const embellish = new EmbellishImage(document.getElementById('canvas'), option);
 
-// General API
-em.init(); // init container
-em.uploadLocal(); // upload from local
-em.uploadURL(); // upload from an URL
-em.cropper();
-em.getCanvasData();
-em.saveToLocal(); // download img
-em.saveToServer(); // save to server
-em.cancel(); // cancel edit
+// renderImage
+const inputImage = document.getElementById('image');
+inputImage.addEventListener('change', (ev) => {
+  const src = getImageURL(ev);
+  embellish.renderImage(src);
+});
+
+// grayscale
+const data = embellish.getImageData();
+embellish.grayscale(data);
+
+// invert
+const data = embellish.getImageData();
+embellish.invert(data);
+
+// reset
+embellish.reset();
 ```
 
-## Plan
+## Features
 
-- [x] upload image
-- [ ] save image to server
-- [ ] embellish image (canvas)
-- [x] enable drag and drop
-- [ ] enable responsive
-- [ ] support take a picture as upload
-- [ ] ...
+- render image
+- drag
+- zoom
+- invert
+- grayscale
