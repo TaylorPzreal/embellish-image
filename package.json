@@ -11,10 +11,10 @@
     "README.md"
   ],
   "scripts": {
-    "start": "rollup -c rollup.config.iife.js -w",
+    "start": "rollup -c rollup.config.iife.ts -w",
     "build": "rm -rf dist && yarn build-esm && yarn build-iife",
-    "build-iife": "rollup -c rollup.config.iife.js",
-    "build-esm": "rollup -c rollup.config.js && tsc",
+    "build-iife": "rollup -c rollup.config.iife.ts",
+    "build-esm": "rollup -c rollup.config.ts && tsc",
     "server": "npx http-server ./ -p 9000"
   },
   "repository": {
