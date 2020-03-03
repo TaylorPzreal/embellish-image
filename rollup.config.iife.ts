@@ -1,7 +1,6 @@
 import typescript from 'rollup-plugin-typescript2';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-// import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 
 export default {
@@ -23,10 +22,6 @@ export default {
     typescript({
       useTsconfigDeclarationDir: true,
     }),
-    // babel({
-    //   exclude: 'node_modules/**',
-    //   babelrc: true,
-    // }),
     resolve(),
     commonjs(),
     terser(),
