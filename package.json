@@ -15,7 +15,8 @@
     "build": "rm -rf dist && tsc && yarn build-esm && yarn build-iife",
     "build-iife": "rollup -c rollup.config.iife.ts",
     "build-esm": "rollup -c rollup.config.ts",
-    "server": "npx http-server ./ -p 9000"
+    "server": "npx http-server ./ -p 9000",
+    "prepublish": "yarn build"
   },
   "repository": {
     "type": "git",

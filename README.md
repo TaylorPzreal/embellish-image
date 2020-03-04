@@ -16,11 +16,13 @@ inputImage.addEventListener('change', (ev) => {
   const src = getImageURL(ev);
   embellish.renderImage(src);
 });
+embellish.getImageData();
+embellish.putImageData(imageData: ImageData);
 
 const value = 2;
 
-embellish.grayscale();
-embellish.invert();
+embellish.grayscale(true);
+embellish.invert(true);
 embellish.brightness(value);
 embellish.contrast(value);
 
@@ -28,6 +30,7 @@ embellish.contrast(value);
 embellish.reset();
 
 embellish.exportImage(callback, type?:string, quality?:any);
+embellish.exportConfig();
 ```
 
 ## Features
