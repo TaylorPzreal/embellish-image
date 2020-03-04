@@ -1,7 +1,7 @@
 {
   "name": "embellish-image",
   "version": "2.0.0",
-  "description": "upload image & embellish image & save image to local or server.",
+  "description": "embellish image",
   "browser": "dist/index.min.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,7 @@
     "images",
     "embellish",
     "save",
-    "image"
+    "export image"
   ],
   "author": "TaylorPzreal <taylorpzreal@gmail.com>",
   "license": "MIT",

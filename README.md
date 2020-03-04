@@ -1,6 +1,6 @@
 # embellish-image
 
-> v2.0.0 👏👏👏 A plugin that can upload local image, crop image, embellish image and export image to server or local.
+> v2.0.0 👏👏👏 A plugin that embellish image.
 
 ## Usage
 
