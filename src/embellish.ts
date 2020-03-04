@@ -1,46 +1,67 @@
-import { zoom, select, zoomIdentity } from 'd3';
-import { Option, Operation, OperationName } from './model';
+import { zoom, select, zoomIdentity, zoomTransform } from 'd3';
+import cloneDeep from 'lodash/cloneDeep';
+import { Option, Filter, defaultFilters, FilterName } from './model';
 import { grayscale, invert, scaleToFill, zoomCallback, brightness, contrast } from './util';
 
 export default class EmbellishImage {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
-  // private option: Option;
   private originImageData: ImageData;
   private imageFile: HTMLImageElement;
-  private operationList: Operation[] = [];
+  private filters: Filter[] = defaultFilters();
 
-  constructor(private e: HTMLCanvasElement | string, private opt?: Option) {
-    this.canvas = typeof this.e === 'object' ? this.e : document.querySelector(this.e);
+  constructor(canvas: HTMLCanvasElement | string, option?: Option) {
+    this.canvas = typeof canvas === 'object' ? canvas : document.querySelector(canvas);
     this.ctx = this.canvas.getContext('2d');
-    // this.option = opt;
-    console.log(this.opt);
+    this.initOption(option);
     this.initZoom();
+  }
+
+  private initOption(option?: Option) {
+    if (!option) {
+      return;
+    }
+
+    const { width, height, transform, scale, filters } = option;
+    if (width) {
+      this.canvas.width = width;
+    }
+
+    if (height) {
+      this.canvas.height = height;
+    }
+
+    if (transform) {
+      this.ctx.save();
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.translate(...transform);
+      this.ctx.restore();
+    }
+
+    if (scale) {
+      this.ctx.save();
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.scale(scale, scale);
+      this.ctx.restore();
+    }
+
+    if (filters) {
+      this.filters.forEach((f) => {
+        const item = filters.find(ff => ff.name === f.name);
+        if (item && f.name === item.name) {
+          f.value = item.value;
+        }
+      });
+
+      this.renderFilters();
+    }
   }
 
   private initZoom() {
     select(this.canvas).call(zoom().scaleExtent([1, 4]).duration(500).on('zoom', () => {
       zoomCallback(this.canvas, this.ctx, () => {
-        this.ctx.save();
-        const data = this.getFillData();
-        this.ctx.drawImage(this.imageFile, ...data);
-        this.ctx.restore();
-        this.operationList.forEach((op) => {
-          switch(op.name) {
-            case OperationName.grayscale:
-              this.innerGrayScale();
-              break;
-            case OperationName.invert:
-              this.innerInvert();
-              break;
-            case OperationName.brightness:
-              this.innerBrightness(op.config.value);
-              break;
-            case OperationName.contrast:
-              this.innerContrast(op.config.value);
-              break;
-          }
-        });
+        this.renderImageFile();
+        this.renderFilters();
       });
     }));
   }
@@ -48,9 +69,9 @@ export default class EmbellishImage {
   public renderImage(src: string) {
     this.imageFile = new Image();
     this.imageFile.onload = (ev: Event) => {
-      const data = this.getFillData();
-      this.ctx.drawImage(this.imageFile, ...data);
+      this.renderImageFile();
       this.originImageData = this.getImageData();
+      this.renderFilters();
     }
     this.imageFile.src = src;
   }
@@ -60,72 +81,106 @@ export default class EmbellishImage {
     return result;
   }
 
-  public getLastImageData() {
-
-  }
-
-  public setRGB(r: number, g: number, b: number) {
-
-  }
-
-  private innerBrightness(value: number = 0) {
-    const imageData = this.getImageData();
-    const result = brightness(imageData, value);
-    this.renderData(result, 0, 0);
-  }
-
-  public brightness(value: number = 0) {
-    this.innerBrightness(value);
-    this.operationList.push({ name: OperationName.brightness, config: { value } });
-  }
-
-  private innerContrast(value: number = 0) {
-    const imageData = this.getImageData();
-    const result = contrast(imageData, value);
-    this.renderData(result, 0, 0);
-  }
-
-  public contrast(value: number = 0) {
-    this.innerContrast(value);
-    this.operationList.push({ name: OperationName.contrast, config: { value } });
-  }
-
-  private innerGrayScale() {
-    const imageData = this.getImageData();
-    const result = grayscale(imageData);
-    this.renderData(result, 0, 0);
-  }
-
-  public grayscale() {
-    this.innerGrayScale();
-    this.operationList.push({ name: OperationName.grayscale })
-  }
-
-  private innerInvert() {
-    const imageData = this.getImageData();
-    const result = invert(imageData);
-    this.renderData(result, 0, 0);
-  }
-
-  public invert() {
-    this.innerInvert();
-    this.operationList.push({ name: OperationName.invert })
-  }
-
-  public reset() {
-    this.operationList = [];
-    this.ctx.save();
-    select(this.canvas).call(zoom().transform, zoomIdentity);
-    this.renderData(this.originImageData, 0, 0);
-    this.ctx.restore();
-  }
-
-  public renderData(imageData: ImageData, dx: number, dy: number) {
+  public putImageData(imageData: ImageData, dx: number, dy: number) {
     this.ctx.putImageData(imageData, dx, dy);
   }
 
-  public getOperationList() {
+  public brightness(value: number = 0) {
+    this.filters.forEach((f) => {
+      if (f.name === FilterName.brightness) {
+        f.value = value;
+      }
+    });
+    const imageData = this.getImageData();
+    const result = brightness(imageData, value);
+    this.putImageData(result, 0, 0);
+  }
 
+  public contrast(value: number = 0) {
+    this.filters.forEach((f) => {
+      if (f.name === FilterName.contrast) {
+        f.value = value;
+      }
+    });
+    const imageData = this.getImageData();
+    const result = contrast(imageData, value);
+    this.putImageData(result, 0, 0);
+  }
+
+  public grayscale(active: boolean) {
+    this.filters.forEach((f) => {
+      if (f.name === FilterName.grayscale) {
+        f.value = active;
+      }
+    });
+    if (active) {
+      const imageData = this.getImageData();
+      const result = grayscale(imageData);
+      this.putImageData(result, 0, 0);
+    } else {
+      this.render();
+    }
+  }
+
+  public invert(active: boolean) {
+    this.filters.forEach((f) => {
+      if (f.name === FilterName.invert) {
+        f.value = active;
+      }
+    });
+
+    if (active) {
+      const imageData = this.getImageData();
+      const result = invert(imageData);
+      this.putImageData(result, 0, 0);
+    } else {
+      this.render();
+    }
+  }
+
+  public reset() {
+    this.filters = defaultFilters();
+    this.ctx.save();
+    select(this.canvas).call(zoom().transform, zoomIdentity);
+    this.putImageData(this.originImageData, 0, 0);
+    this.ctx.restore();
+  }
+
+  public render() {
+    const { x, y, k } = zoomTransform(this.canvas);
+    const { width , height } = this.canvas;
+
+    this.ctx.save();
+    this.ctx.clearRect(0, 0, width, height);
+    this.ctx.translate(x, y);
+    this.ctx.scale(k, k);
+    this.renderImageFile();
+    this.renderFilters();
+    this.ctx.restore();
+  }
+
+  private renderImageFile() {
+    const data = this.getFillData();
+    this.ctx.drawImage(this.imageFile, ...data);
+  }
+
+  private renderFilters() {
+    this.filters.forEach((filter) => {
+      switch(filter.name) {
+        case FilterName.grayscale:
+          filter.value === true && this.grayscale(filter.value);
+          break;
+        case FilterName.invert:
+          filter.value === true && this.invert(filter.value);
+          break;
+        case FilterName.brightness:
+          this.brightness(filter.value as number);
+          break;
+        case FilterName.contrast:
+          this.contrast(filter.value as number);
+          break;
+      }
+    });
   }
 
   private getFillData():[number, number, number, number] {
@@ -134,5 +189,20 @@ export default class EmbellishImage {
 
   public exportImage(callback: BlobCallback, type?: string, quality?: any) {
     this.canvas.toBlob(callback, type, quality);
+  }
+
+  public exportConfig() {
+    const { x, y, k } = zoomTransform(this.canvas);
+    const { width, height } = this.canvas;
+
+    const result: Option = {
+      width,
+      height,
+      transform: [x, y],
+      scale: k,
+      filters: cloneDeep(this.filters),
+    }
+
+    return result;
   }
 }

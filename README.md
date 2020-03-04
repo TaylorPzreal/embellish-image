@@ -1,6 +1,6 @@
 # embellish-image
 
-> v2.0.0👏 A plugin that can upload local image, crop image, embellish image and export image to server or local.
+> v2.0.0 👏👏👏 A plugin that can upload local image, crop image, embellish image and export image to server or local.
 
 ## Usage
 
@@ -40,6 +40,8 @@ embellish.exportImage(callback, type?:string, quality?:any);
 - brightness
 - contrast
 - export image to blob
+- export config
+- Initialize with config
 
 ## Development
 

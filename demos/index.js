@@ -1,8 +1,17 @@
 const { EmbellishImage, getImageURL } = EmbellishBundle;
 const dom = document.getElementById('canvas');
+
 const config = {
-  width: 200,
-  heigh: 200,
+  width: 600,
+  height: 600,
+  transform: [-388.05764003367335, -374.73933846240163],
+  scale: 2.0676614724959306,
+  filters: [
+    {name: "brightness", type: "number", value: 4},
+    {name: "contrast", type: "number", value: 0},
+    {name: "invert", type: "boolean", value: false},
+    {name: "grayscale", type: "boolean", value: true}
+  ],
 };
 
 const embellish = new EmbellishImage(dom, config);
@@ -13,13 +22,17 @@ inputImage.addEventListener('change', (ev) => {
   embellish.renderImage(src);
 });
 
-function gray() {
-  embellish.grayscale();
-}
+const grayscale = document.getElementById('grayscale');
+grayscale.addEventListener('change', () => {
+  console.log(grayscale.checked);
+  embellish.grayscale(grayscale.checked);
+})
+const invert = document.getElementById('invert');
+invert.addEventListener('change', () => {
+  console.log(invert.checked);
+  embellish.invert(invert.checked);
+})
 
-function invert() {
-  embellish.invert();
-}
 
 function reset() {
   embellish.reset();
@@ -27,15 +40,13 @@ function reset() {
 
 const brightness = document.getElementById('brightness');
 brightness.addEventListener('change', (ev) => {
-  const value = brightness.value;
-  console.log('Brightness: ', value);
+  const value = +brightness.value;
   embellish.brightness(value);
 });
 
 const contrast = document.getElementById('contrast');
 contrast.addEventListener('change', () => {
-  const value = contrast.value;
-  console.log(value);
+  const value = +contrast.value;
   embellish.contrast(value);
 });
 
@@ -49,4 +60,9 @@ function save() {
     }
     img.src = src;
   })
+}
+
+function exportConfig() {
+  const config = embellish.exportConfig();
+  console.log(config);
 }

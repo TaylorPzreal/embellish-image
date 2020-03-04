@@ -11,9 +11,10 @@ export default {
       file: 'dist/index.min.js',
       name: 'EmbellishBundle',
       format: 'iife',
-      sourcemap: false,
+      sourcemap: true,
       globals: {
         'd3': 'd3',
+        'lodash': '_',
       },
     }
   ],

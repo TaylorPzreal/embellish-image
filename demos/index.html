@@ -22,12 +22,13 @@
   </div>
 
   <footer>
-    <button onclick="gray()">Grayscale</button>
-    <button onclick="invert()">Invert</button>
+    <input type="checkbox" name="grayscale" id="grayscale">Grayscale
+    <input type="checkbox" name="invert" id="invert">Invert
     <input type="range" name="brightness" id="brightness" min="-10" max="10">Brightness
     <input type="range" name="contrast" id="contrast" min="-10" max="10">Contrast
     <button onclick="reset()">reset</button>
     <button onclick="save()">Save</button>
+    <button onclick="exportConfig()">Export config</button>
   </footer>
 
   <script src="/dist/index.min.js"></script>

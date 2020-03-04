@@ -27,7 +27,7 @@ export default {
     commonjs(),
     terser(),
   ],
-  external: ['d3'],
+  external: ['d3', 'lodash/cloneDeep'],
   watch: {
     include: 'src/**'
   }
